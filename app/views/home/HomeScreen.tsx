@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { FlatList, StyleSheet, TouchableHighlight, View } from 'react-native';
+import React, { FunctionComponent } from 'react';
+import { FlatList, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import HomeMenuRow from './HomeMenuRow';
 
 type MenuOption = {
@@ -7,31 +8,31 @@ type MenuOption = {
     title: string;
 };
 
-class HomeScreen extends Component {
-    private menuOptions: MenuOption[] = [
+const HomeScreen: FunctionComponent = () => {
+    const navigation = useNavigation();
+
+    const menuOptions: MenuOption[] = [
         { key: '1', title: 'User' },
         { key: '2', title: 'Repositories' },
     ];
 
-    private onListPress(item: MenuOption) {
-        console.log(item.title);
-    }
+    const onListPress = (item: MenuOption) => {
+        navigation.navigate(item.title);
+    };
 
-    render() {
-        return (
-            <FlatList<MenuOption>
-                style={styles.container}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                data={this.menuOptions}
-                renderItem={(item) => (
-                    <TouchableHighlight key={item.item.key} onPress={() => this.onListPress(item.item)}>
-                        <HomeMenuRow title={item.item.title} />
-                    </TouchableHighlight>
-                )}
-            />
-        );
-    }
-}
+    return (
+        <FlatList<MenuOption>
+            style={styles.container}
+            data={menuOptions}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            renderItem={(item) => (
+                <TouchableWithoutFeedback key={item.item.key} onPress={() => onListPress(item.item)}>
+                    <HomeMenuRow title={item.item.title} />
+                </TouchableWithoutFeedback>
+            )}
+        />
+    );
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Text } from 'react-native';
 
-export default class UserScreen extends Component {
-    render() {
-        return (
-            <>
-                <Text>User Screen</Text>
-            </>
-        );
-    }
-}
+const UserScreen: FunctionComponent = () => {
+    return (
+        <>
+            <Text>User Screen</Text>
+        </>
+    );
+};
+
+export default UserScreen;
