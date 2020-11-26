@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { FlatList, StyleSheet, TouchableHighlight, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import HomeMenuRow from './HomeMenuRow';
 
@@ -16,9 +16,7 @@ const HomeScreen: FunctionComponent = () => {
         { key: '2', title: 'Repositories' },
     ];
 
-    const onListPress = (item: MenuOption) => {
-        navigation.navigate(item.title);
-    };
+    const onListPress = (item: MenuOption) => navigation.navigate(item.title);
 
     return (
         <FlatList<MenuOption>
@@ -26,9 +24,9 @@ const HomeScreen: FunctionComponent = () => {
             data={menuOptions}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
             renderItem={(item) => (
-                <TouchableWithoutFeedback key={item.item.key} onPress={() => onListPress(item.item)}>
+                <Pressable key={item.item.key} onPress={() => onListPress(item.item)}>
                     <HomeMenuRow title={item.item.title} />
-                </TouchableWithoutFeedback>
+                </Pressable>
             )}
         />
     );
