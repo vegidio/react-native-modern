@@ -10,13 +10,11 @@ export default class UserStore {
     user = new User();
 
     constructor() {
-        console.log('User Store init');
         makeObservable(this);
     }
 
     @action
     async fetchUser(username: string) {
-        console.log('fetch');
         const [error, user] = await to(this.service.getUser(username));
 
         if (error) {

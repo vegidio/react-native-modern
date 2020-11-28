@@ -1,42 +1,20 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { Button, Text } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { observer, useLocalObservable } from 'mobx-react-lite';
-import { StoreContext, StoreProvider, UserStore } from '../../stores';
+import React, { FunctionComponent } from 'react';
+import { useLocalObservable } from 'mobx-react-lite';
+import { StoreProvider, UserStore } from '../../stores';
+import { Separator } from '../../components';
+import UserInfo from './UserInfo';
+import UserFetch from './UserFetch';
 
-const UserScreen: FunctionComponent = observer(() => {
-    const navigation = useNavigation<StackNavigationProp<any>>();
+const UserScreen: FunctionComponent = () => {
     const userStore = useLocalObservable(() => new UserStore());
-    const { username } = useRoute().params as any;
-
-    useEffect(() => {
-        userStore.fetchUser(username);
-    }, [userStore, username]);
-
-    const onListPress = () => {
-        navigation.push('User', { username: 'johnie' });
-    };
 
     return (
         <StoreProvider store={{ userStore: userStore }}>
+            <UserFetch />
+            <Separator />
             <UserInfo />
-            <Button title={'Novo'} onPress={() => onListPress()} />
         </StoreProvider>
     );
-});
-
-const UserInfo: FunctionComponent = observer(() => {
-    const { userStore } = useContext(StoreContext);
-
-    return (
-        <>
-            <Text>{userStore?.user.id}</Text>
-            <Text>{userStore?.user.login}</Text>
-            <Text>{userStore?.user.name}</Text>
-            <Text>{userStore?.user.htmlUrl}</Text>
-        </>
-    );
-});
+};
 
 export default UserScreen;

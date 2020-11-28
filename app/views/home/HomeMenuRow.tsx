@@ -5,10 +5,10 @@ type Props = {
     title: string;
 };
 
-const HomeMenuRow: FunctionComponent<Props> = (props) => {
+const HomeMenuRow: FunctionComponent<Props> = ({ title }) => {
     return (
         <View style={styles.container}>
-            <Text>{props.title}</Text>
+            <Text>{title}</Text>
         </View>
     );
 };
