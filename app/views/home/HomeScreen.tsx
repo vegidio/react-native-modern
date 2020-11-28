@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import HomeMenuRow from './HomeMenuRow';
+import { useNavigation } from '@react-navigation/native';
 
 type MenuOption = {
     key: string;
@@ -16,7 +16,7 @@ const HomeScreen: FunctionComponent = () => {
         { key: '2', title: 'Repositories' },
     ];
 
-    const onListPress = (item: MenuOption) => navigation.navigate(item.title);
+    const onListPress = (item: MenuOption) => navigation.push('User', { username: 'vegidio' });
 
     return (
         <FlatList<MenuOption>

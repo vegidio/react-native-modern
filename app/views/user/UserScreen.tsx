@@ -1,31 +1,42 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import { Text } from 'react-native';
-import to from 'await-to-js';
-import { GithubService } from '../../services';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
+import { Button, Text } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { observer, useLocalObservable } from 'mobx-react-lite';
+import { StoreContext, StoreProvider, UserStore } from '../../stores';
 
-const UserScreen: FunctionComponent = () => {
-    const service = new GithubService();
+const UserScreen: FunctionComponent = observer(() => {
+    const navigation = useNavigation<StackNavigationProp<any>>();
+    const userStore = useLocalObservable(() => new UserStore());
+    const { username } = useRoute().params as any;
 
     useEffect(() => {
-        const fetchData = async () => {
-            let [error, user] = await to(service.getUser('vegidioxxxxx'));
+        userStore.fetchUser(username);
+    }, [userStore, username]);
 
-            if (error) {
-                console.error(error);
-                return;
-            }
+    const onListPress = () => {
+        navigation.push('User', { username: 'johnie' });
+    };
 
-            console.log(user);
-        };
+    return (
+        <StoreProvider store={{ userStore: userStore }}>
+            <UserInfo />
+            <Button title={'Novo'} onPress={() => onListPress()} />
+        </StoreProvider>
+    );
+});
 
-        fetchData();
-    }, [service]);
+const UserInfo: FunctionComponent = observer(() => {
+    const { userStore } = useContext(StoreContext);
 
     return (
         <>
-            <Text>User Screen</Text>
+            <Text>{userStore?.user.id}</Text>
+            <Text>{userStore?.user.login}</Text>
+            <Text>{userStore?.user.name}</Text>
+            <Text>{userStore?.user.htmlUrl}</Text>
         </>
     );
-};
+});
 
 export default UserScreen;
