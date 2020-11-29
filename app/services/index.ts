@@ -1,3 +1,4 @@
+import NetworkState from './NetworkState';
 import GithubService from './GithubService';
 
-export { GithubService };
+export { NetworkState, GithubService };

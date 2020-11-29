@@ -1,3 +1,4 @@
+import LoadingErrorOverlay from './LoadingErrorOverlay';
 import Separator from './Separator';
 
-export { Separator };
+export { LoadingErrorOverlay, Separator };

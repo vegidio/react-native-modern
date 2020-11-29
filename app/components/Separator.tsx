@@ -1,8 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const Separator: FunctionComponent = () => {
-    return <View style={styles.separator} />;
+type Props = {
+    style?: object;
+};
+
+const Separator: FunctionComponent<Props> = ({ style }) => {
+    return <View style={[styles.separator, style]} />;
 };
 
 const styles = StyleSheet.create({

@@ -1,10 +1,16 @@
 import to from 'await-to-js';
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import { GithubService } from '../services';
+import { GithubService, NetworkState } from '../services';
 import { User } from '../models';
 
 export default class UserStore {
     private service = new GithubService();
+
+    @observable
+    state = NetworkState.Idle;
+
+    @observable
+    errorMessage?: string;
 
     @observable
     user = new User();
@@ -14,14 +20,22 @@ export default class UserStore {
     }
 
     @action
-    async fetchUser(username: string) {
+    fetchUser = async (username: string) => {
+        runInAction(() => (this.state = NetworkState.Loading));
         const [error, user] = await to(this.service.getUser(username));
 
         if (error) {
-            console.error(error);
+            runInAction(() => {
+                this.state = NetworkState.Error;
+                this.errorMessage = error.message;
+            });
+
             return;
         }
 
-        runInAction(() => (this.user = user!));
-    }
+        runInAction(() => {
+            this.user = user!;
+            this.state = NetworkState.Idle;
+        });
+    };
 }
