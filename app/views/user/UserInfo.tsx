@@ -1,20 +1,20 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../stores';
+import { useSelector } from 'react-redux';
+import { UserState } from '../../store/UserSlice';
 
-const UserInfo: FunctionComponent = observer(() => {
-    const { userStore } = useContext(StoreContext);
+const UserInfo: FunctionComponent = () => {
+    const { data } = useSelector((state: UserState) => state.user);
 
     return (
         <>
-            <UserRow label="ID:" value={userStore?.user.id} />
-            <UserRow label="Login:" value={userStore?.user.login} />
-            <UserRow label="Name:" value={userStore?.user.name} />
-            <UserRow label="URL:" value={userStore?.user.htmlUrl} />
+            <UserRow label="ID:" value={data.id ?? 0} />
+            <UserRow label="Login:" value={data.login ?? ''} />
+            <UserRow label="Name:" value={data.name ?? ''} />
+            <UserRow label="URL:" value={data.html_url ?? ''} />
         </>
     );
-});
+};
 
 type Props = {
     label: string;

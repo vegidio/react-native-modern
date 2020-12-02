@@ -1,31 +1,30 @@
 import React, { FunctionComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { observer, useLocalObservable } from 'mobx-react-lite';
-import { StoreProvider, UserStore } from '../../stores';
-import { NetworkState } from '../../services';
+import { useSelector } from 'react-redux';
 import { LoadingErrorOverlay, Separator } from '../../components';
+import { NetworkState } from '../../services';
+import { UserState } from '../../store/UserSlice';
+
 import UserInfo from './UserInfo';
 import UserFetch from './UserFetch';
 
-const UserScreen: FunctionComponent = observer(() => {
-    const userStore = useLocalObservable(() => new UserStore());
+const UserScreen: FunctionComponent = () => {
+    const { state } = useSelector((userState: UserState) => userState.user);
 
     return (
-        <StoreProvider store={{ userStore: userStore }}>
-            <View style={styles.container}>
-                <UserFetch />
-                <Separator style={styles.separator} />
-                {userStore.state === NetworkState.Idle ? (
-                    <UserInfo />
-                ) : (
-                    <LoadingErrorOverlay
-                        error={userStore.state === NetworkState.Error ? 'Error connecting to the server.' : undefined}
-                    />
-                )}
-            </View>
-        </StoreProvider>
+        <View style={styles.container}>
+            <UserFetch />
+            <Separator style={styles.separator} />
+            {state === NetworkState.Idle ? (
+                <UserInfo />
+            ) : (
+                <LoadingErrorOverlay
+                    error={state === NetworkState.Error ? 'Error connecting to the server.' : undefined}
+                />
+            )}
+        </View>
     );
-});
+};
 
 const styles = StyleSheet.create({
     container: {

@@ -1,13 +1,14 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import { StoreContext } from '../../stores';
+import { useDispatch } from 'react-redux';
+import { userFetch } from '../../store/UserSlice';
 
 const UserFetch: FunctionComponent = () => {
-    const { userStore } = useContext(StoreContext);
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('vegidio');
 
     const onFetch = () => {
-        userStore?.fetchUser(username);
+        dispatch(userFetch(username));
     };
 
     return (

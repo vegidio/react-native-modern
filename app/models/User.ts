@@ -1,4 +1,4 @@
-import { alias, serializable } from 'serializr';
+import { serializable } from 'serializr';
 
 class User {
     @serializable
@@ -10,8 +10,8 @@ class User {
     @serializable
     name?: string;
 
-    @serializable(alias('html_url'))
-    htmlUrl?: string;
+    @serializable
+    html_url?: string;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);
