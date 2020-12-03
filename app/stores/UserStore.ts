@@ -4,7 +4,7 @@ import { GithubService, NetworkState } from '../services';
 import { User } from '../models';
 
 export default class UserStore {
-    private service = new GithubService();
+    private service = new GithubService(300);
 
     @observable
     state = NetworkState.Idle;
