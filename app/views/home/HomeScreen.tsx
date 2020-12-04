@@ -7,19 +7,20 @@ import HomeMenuRow from './HomeMenuRow';
 import HomeSourceSelector from './HomeSourceSelector';
 
 type MenuOption = {
-    key: string;
     title: string;
+    key: string;
 };
 
 const HomeScreen: FunctionComponent = () => {
     const navigation = useNavigation<StackNavigationProp<any>>();
 
     const menuOptions: MenuOption[] = [
-        { key: '1', title: 'Users' },
-        { key: '2', title: 'Posts' },
+        { title: 'Users', key: 'UserList' },
+        { title: 'Posts', key: 'PostList' },
+        { title: 'Comments', key: 'CommentList' },
     ];
 
-    const onListPress = (item: MenuOption) => navigation.push(item.title, { username: 'vegidio' });
+    const onListPress = (item: MenuOption) => navigation.push(item.key);
 
     return (
         <SafeAreaView style={styles.safearea}>
@@ -27,8 +28,9 @@ const HomeScreen: FunctionComponent = () => {
                 <FlatList<MenuOption>
                     data={menuOptions}
                     ItemSeparatorComponent={() => <Separator />}
+                    keyExtractor={(item) => item.key}
                     renderItem={(item) => (
-                        <Pressable key={item.item.key} onPress={() => onListPress(item.item)}>
+                        <Pressable onPress={() => onListPress(item.item)}>
                             <HomeMenuRow title={item.item.title} />
                         </Pressable>
                     )}

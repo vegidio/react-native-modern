@@ -11,7 +11,7 @@ const UserScreen: FunctionComponent = observer(() => {
     const userStore = useLocalObservable(() => new UserStore());
 
     return (
-        <StoreProvider store={{ userStore: userStore }}>
+        <StoreProvider store={{ userStore }}>
             <View style={styles.container}>
                 <UserFetch />
                 <Separator style={styles.separator} />
