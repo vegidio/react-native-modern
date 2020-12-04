@@ -8,10 +8,11 @@ const UserInfo: FunctionComponent = observer(() => {
 
     return (
         <>
-            <UserRow label="ID:" value={userStore?.user.id} />
-            <UserRow label="Login:" value={userStore?.user.login} />
-            <UserRow label="Name:" value={userStore?.user.name} />
-            <UserRow label="URL:" value={userStore?.user.htmlUrl} />
+            <UserRow label="ID:" value={userStore?.user.objectId} />
+            <UserRow label="Creation:" value={userStore?.user.createdAt?.toISOString()} />
+            <UserRow label="User:" value={userStore?.user.username} />
+            <UserRow label="Verified:" value={String(userStore?.user.emailVerified ?? '')} />
+            <UserRow label="Age:" value={userStore?.user.age} />
         </>
     );
 });
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontWeight: 'bold',
-        width: 80,
+        width: 88,
     },
 });
 

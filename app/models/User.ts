@@ -1,17 +1,20 @@
-import { alias, serializable } from 'serializr';
+import { date, serializable } from 'serializr';
 
 class User {
     @serializable
-    id?: number;
+    objectId?: string;
+
+    @serializable(date())
+    createdAt?: Date;
 
     @serializable
-    login?: string;
+    username?: string;
 
     @serializable
-    name?: string;
+    emailVerified?: boolean;
 
-    @serializable(alias('html_url'))
-    htmlUrl?: string;
+    @serializable
+    age?: number;
 
     constructor(init?: Partial<User>) {
         Object.assign(this, init);

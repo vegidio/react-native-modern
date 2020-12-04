@@ -4,7 +4,10 @@ import { GithubService, NetworkState } from '../services';
 import { User } from '../models';
 
 export default class UserStore {
-    private service = new GithubService(300);
+    private service = new GithubService({
+        headers: { 'X-Parse-Application-Id': 'common' },
+        cacheTtl: 300,
+    });
 
     @observable
     state = NetworkState.Idle;
@@ -20,9 +23,9 @@ export default class UserStore {
     }
 
     @action
-    fetchUser = async (username: string) => {
+    fetchUser = async (objectId: string) => {
         runInAction(() => (this.state = NetworkState.Loading));
-        const [error, user] = await to(this.service.getUser(username));
+        const [error, user] = await to(this.service.getUserById(objectId));
 
         if (error) {
             runInAction(() => {

@@ -1,5 +1,5 @@
 import to from 'await-to-js';
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
 import { Cache } from 'react-native-cache';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import hash from 'object-hash';
@@ -10,20 +10,29 @@ type RequestParams = {
 
 abstract class RestFactory {
     private readonly cache?: Cache;
-    private readonly client = axios.create({ timeout: 5_000 });
+    private readonly client: AxiosInstance;
+    readonly headers: any;
+    readonly cacheTtl?: number;
 
-    constructor(cacheTtl?: number) {
-        if (cacheTtl !== undefined) {
+    constructor(init?: Partial<RestFactory>) {
+        Object.assign(this, init);
+
+        if (this.cacheTtl !== undefined) {
             this.cache = new Cache({
                 namespace: 'react-native-common',
-                policy: { maxEntries: 0, stdTTL: cacheTtl },
+                policy: { maxEntries: 0, stdTTL: this.cacheTtl },
                 backend: AsyncStorage,
             });
         }
+
+        this.client = axios.create({
+            headers: this.headers,
+            timeout: 5_000,
+        });
     }
 
     // region - Public methods
-    sendRequest = async (method: Method, url: string, params?: RequestParams): Promise<object> => {
+    sendRequest = async (method: Method, url: string, params?: RequestParams): Promise<any> => {
         const [config, key] = this.createRequest(method, url, params);
         const [, cachedData] = await to(this.cache!.get(key).then((str) => JSON.parse(str!)));
 

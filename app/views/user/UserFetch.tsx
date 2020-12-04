@@ -4,7 +4,7 @@ import { StoreContext } from '../../stores';
 
 const UserFetch: FunctionComponent = () => {
     const { userStore } = useContext(StoreContext);
-    const [username, setUsername] = useState('vegidio');
+    const [username, setUsername] = useState('XGnFok3boC');
 
     const onFetch = () => {
         userStore?.fetchUser(username);
