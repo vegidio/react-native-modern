@@ -1,9 +1,5 @@
 import { action, computed, makeObservable, observable } from 'mobx';
-
-enum DataSource {
-    Rest,
-    GraphQL,
-}
+import { DataSource } from '../enums';
 
 export default class AppStore {
     @observable

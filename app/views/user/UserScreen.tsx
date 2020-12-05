@@ -2,8 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import { StoreProvider, UserStore } from '../../stores';
-import { NetworkState } from '../../services';
 import { LoadingErrorOverlay, Separator } from '../../components';
+import { NetworkState } from '../../enums';
 import UserInfo from './UserInfo';
 import UserFetch from './UserFetch';
 

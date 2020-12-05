@@ -1,4 +1,4 @@
-import NetworkState from './NetworkState';
-import GithubService from './GithubService';
+import { CommonService, CommonRestService, CommonGraphqlService } from './CommonService';
 
-export { NetworkState, GithubService };
+export type { CommonService };
+export { CommonRestService, CommonGraphqlService };
